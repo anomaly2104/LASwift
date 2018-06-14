@@ -19,8 +19,8 @@ import Accelerate
 ///     - a: left vector
 ///     - b: right vector
 /// - Returns: elementwise vector sum of a and b
-public func plus(_ a: Vector, _ b: Vector) -> Vector {
-    return vectorVectorOperation(vDSP_vaddD, a, b)
+public func plus(_ a: Vector, _ b: Vector) throws -> Vector {
+    return try vectorVectorOperation(vDSP_vaddD, a, b)
 }
 
 /// Perform vector addition.
@@ -31,8 +31,8 @@ public func plus(_ a: Vector, _ b: Vector) -> Vector {
 ///     - a: left vector
 ///     - b: right vector
 /// - Returns: elementwise vector sum of a and b
-public func + (_ a: Vector, _ b: Vector) -> Vector {
-    return plus(a, b)
+public func + (_ a: Vector, _ b: Vector) throws -> Vector {
+    return try plus(a, b)
 }
 
 /// Perform vector substraction.
@@ -43,8 +43,8 @@ public func + (_ a: Vector, _ b: Vector) -> Vector {
 ///     - a: left vector
 ///     - b: right vector
 /// - Returns: elementwise vector difference of a and b
-public func minus(_ a: Vector, _ b: Vector) -> Vector {
-    return vectorVectorOperation(vDSP_vsubD, b, a)
+public func minus(_ a: Vector, _ b: Vector) throws -> Vector {
+    return try vectorVectorOperation(vDSP_vsubD, b, a)
 }
 
 /// Perform vector substraction.
@@ -55,8 +55,8 @@ public func minus(_ a: Vector, _ b: Vector) -> Vector {
 ///     - a: left vector
 ///     - b: right vector
 /// - Returns: elementwise vector difference of a and b
-public func - (_ a: Vector, _ b: Vector) -> Vector {
-    return minus(a, b)
+public func - (_ a: Vector, _ b: Vector) throws -> Vector {
+    return try minus(a, b)
 }
 
 /// Perform vector multiplication.
@@ -67,8 +67,8 @@ public func - (_ a: Vector, _ b: Vector) -> Vector {
 ///     - a: left vector
 ///     - b: right vector
 /// - Returns: elementwise vector product of a and b
-public func times(_ a: Vector, _ b: Vector) -> Vector {
-    return vectorVectorOperation(vDSP_vmulD, a, b)
+public func times(_ a: Vector, _ b: Vector) throws -> Vector {
+    return try vectorVectorOperation(vDSP_vmulD, a, b)
 }
 
 /// Perform vector multiplication.
@@ -79,8 +79,8 @@ public func times(_ a: Vector, _ b: Vector) -> Vector {
 ///     - a: left vector
 ///     - b: right vector
 /// - Returns: elementwise vector product of a and b
-public func .* (_ a: Vector, _ b: Vector) -> Vector {
-    return times(a, b)
+public func .* (_ a: Vector, _ b: Vector) throws -> Vector {
+    return try times(a, b)
 }
 
 /// Perform vector right division.
@@ -91,8 +91,8 @@ public func .* (_ a: Vector, _ b: Vector) -> Vector {
 ///     - a: left vector
 ///     - b: right vector
 /// - Returns: result of elementwise division of a by b
-public func rdivide(_ a: Vector, _ b: Vector) -> Vector {
-    return vectorVectorOperation(vDSP_vdivD, b, a)
+public func rdivide(_ a: Vector, _ b: Vector) throws -> Vector {
+    return try vectorVectorOperation(vDSP_vdivD, b, a)
 }
 
 /// Perform vector right division.
@@ -103,8 +103,8 @@ public func rdivide(_ a: Vector, _ b: Vector) -> Vector {
 ///     - a: left vector
 ///     - b: right vector
 /// - Returns: result of elementwise division of a by b
-public func ./ (_ a: Vector, _ b: Vector) -> Vector {
-    return rdivide(a, b)
+public func ./ (_ a: Vector, _ b: Vector) throws -> Vector {
+    return try rdivide(a, b)
 }
 
 /// Perform vector left division.
@@ -115,8 +115,8 @@ public func ./ (_ a: Vector, _ b: Vector) -> Vector {
 ///     - a: left vector
 ///     - b: right vector
 /// - Returns: result of elementwise division of b by a
-public func ldivide(_ a: Vector, _ b: Vector) -> Vector {
-    return vectorVectorOperation(vDSP_vdivD, a, b)
+public func ldivide(_ a: Vector, _ b: Vector) throws -> Vector {
+    return try vectorVectorOperation(vDSP_vdivD, a, b)
 }
 
 /// Perform vector left division.
@@ -127,8 +127,8 @@ public func ldivide(_ a: Vector, _ b: Vector) -> Vector {
 ///     - a: left vector
 ///     - b: right vector
 /// - Returns: result of elementwise division of b by a
-public func ./. (_ a: Vector, _ b: Vector) -> Vector {
-    return ldivide(a, b)
+public func ./. (_ a: Vector, _ b: Vector) throws -> Vector {
+    return try ldivide(a, b)
 }
 
 // MARK: - Dot product operations on two vectors
@@ -383,9 +383,9 @@ public func ./ (_ a: Vector, _ b: Double) -> Vector {
 ///     - a: scalar
 ///     - b: vector
 /// - Returns: result of elementwise division of scalar a by vector b
-public func rdivide(_ a: Double, _ b: Vector) -> Vector {
+public func rdivide(_ a: Double, _ b: Vector) throws -> Vector {
     let c = Vector(repeating: a, count: b.count)
-    return rdivide(c, b)
+    return try rdivide(c, b)
 }
 
 /// Perform scalar and vector right division.
@@ -399,8 +399,8 @@ public func rdivide(_ a: Double, _ b: Vector) -> Vector {
 ///     - a: scalar
 ///     - b: vector
 /// - Returns: result of elementwise division of scalar a by vector b
-public func ./ (_ a: Double, _ b: Vector) -> Vector {
-    return rdivide(a, b)
+public func ./ (_ a: Double, _ b: Vector) throws -> Vector {
+    return try rdivide(a, b)
 }
 
 /// Perform vector and scalar left division.
@@ -414,8 +414,8 @@ public func ./ (_ a: Double, _ b: Vector) -> Vector {
 ///     - a: vector
 ///     - b: scalar
 /// - Returns: result of elementwise division of scalar b by vector a
-public func ldivide(_ a: Vector, _ b: Double) -> Vector {
-    return rdivide(b, a)
+public func ldivide(_ a: Vector, _ b: Double) throws -> Vector {
+    return try rdivide(b, a)
 }
 
 /// Perform vector and scalar left division.
@@ -429,8 +429,8 @@ public func ldivide(_ a: Vector, _ b: Double) -> Vector {
 ///     - a: vector
 ///     - b: scalar
 /// - Returns: result of elementwise division of scalar b by vector a
-public func ./. (_ a: Vector, _ b: Double) -> Vector {
-    return ldivide(a, b)
+public func ./. (_ a: Vector, _ b: Double) throws -> Vector {
+    return try ldivide(a, b)
 }
 
 /// Perform scalar and vector left division.

@@ -8,14 +8,21 @@
 
 import Accelerate
 
+public enum LASwiftError: Error {
+  case RuntimeError(String)
+}
+
 // MARK: - Vector operations
 
 typealias Scalar = Double
 
 typealias VectorVectorOperation = ((_: UnsafePointer<Double>, _: vDSP_Stride, _: UnsafePointer<Double>, _: vDSP_Stride, _: UnsafeMutablePointer<Double>, _: vDSP_Stride, _: vDSP_Length) -> ())
 
-func vectorVectorOperation(_ op: VectorVectorOperation, _ a: Vector, _ b: Vector) -> Vector {
-    precondition(a.count == b.count, "Vectors must have equal lenghts")
+func vectorVectorOperation(_ op: VectorVectorOperation, _ a: Vector, _ b: Vector) throws -> Vector {
+    guard a.count == b.count else {
+      throw LASwiftError.RuntimeError("Vectors must have equal lenghts")
+    }
+  
     var c = Vector(repeating: 0.0, count: a.count)
     op(a, 1, b, 1, &c, 1, vDSP_Length(a.count))
     return c
@@ -74,37 +81,40 @@ func aggVectorIFunction(_ op: AggVectorIFunction, _ a: UnsafePointer<Double>, _ 
 
 // MARK: - Matrix operations
 
-typealias MatrixMatrixOperation = ((_ A: Vector, _ B: Vector) -> Vector)
+typealias MatrixMatrixOperation = ((_ A: Vector, _ B: Vector) throws -> Vector)
 
-func matrixMatrixOperation(_ op: MatrixMatrixOperation, _ A: Matrix, _ B: Matrix) -> Matrix {
-    precondition(A.rows == B.rows && A.cols == B.cols, "Matrices must be of same dimensions")
-    return Matrix(A.rows, A.cols, op(A.flat, B.flat))
+func matrixMatrixOperation(_ op: MatrixMatrixOperation, _ A: Matrix, _ B: Matrix) throws -> Matrix {
+    guard A.rows == B.rows && A.cols == B.cols else {
+      throw LASwiftError.RuntimeError("Matrices must be of same dimensions")
+    }
+
+    return Matrix(A.rows, A.cols, try op(A.flat, B.flat))
 }
 
-typealias MatrixScalarOperation = ((_ A: Vector, _ b: Double) -> Vector)
+typealias MatrixScalarOperation = ((_ A: Vector, _ b: Double) throws -> Vector)
 
-func matrixScalarOperation(_ op: MatrixScalarOperation, _ A: Matrix, _ b: Double) -> Matrix {
-    return Matrix(A.rows, A.cols, op(A.flat, b))
+func matrixScalarOperation(_ op: MatrixScalarOperation, _ A: Matrix, _ b: Double) throws -> Matrix {
+    return Matrix(A.rows, A.cols, try op(A.flat, b))
 }
 
-typealias InvMatrixScalarOperation = ((_ a: Double, _ B: Vector) -> Vector)
+typealias InvMatrixScalarOperation = ((_ a: Double, _ B: Vector) throws -> Vector)
 
-func invMatrixScalarOperation(_ op: InvMatrixScalarOperation, _ a: Double, _ B: Matrix) -> Matrix {
-    return Matrix(B.rows, B.cols, op(a, B.flat))
+func invMatrixScalarOperation(_ op: InvMatrixScalarOperation, _ a: Double, _ B: Matrix) throws -> Matrix {
+    return Matrix(B.rows, B.cols, try op(a, B.flat))
 }
 
-func matrixVectorOperation(_ op: MatrixMatrixOperation, _ A: Matrix, _ b: Vector) -> Matrix {
+func matrixVectorOperation(_ op: MatrixMatrixOperation, _ A: Matrix, _ b: Vector) throws -> Matrix {
     let B = Matrix((0..<A.rows).map { _ -> [Double] in
         return b
     })
-    return Matrix(A.rows, A.cols, op(A.flat, B.flat))
+    return Matrix(A.rows, A.cols, try op(A.flat, B.flat))
 }
 
-func invMatrixVectorOperation(_ op: MatrixMatrixOperation, _ a: Vector, _ B: Matrix) -> Matrix {
+func invMatrixVectorOperation(_ op: MatrixMatrixOperation, _ a: Vector, _ B: Matrix) throws -> Matrix {
     let A = Matrix((0..<B.rows).map { _ -> [Double] in
         return a
     })
-    return Matrix(B.rows, B.cols, op(A.flat, B.flat))
+    return Matrix(B.rows, B.cols, try op(A.flat, B.flat))
 }
 
 typealias MatrixFunction = ((_ A: Vector) -> Vector)

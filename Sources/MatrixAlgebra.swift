@@ -24,8 +24,10 @@ public enum Triangle {
 /// - Parameters:
 ///     - A: matrix to compute trace of
 /// - Returns: sum of the elements on the main diagonal
-public func trace(_ A: Matrix) -> Double {
-    precondition(A.rows == A.cols, "Matrix dimensions must agree")
+public func trace(_ A: Matrix) throws -> Double {
+    guard A.rows == A.cols else {
+      throw LASwiftError.RuntimeError("Matrix dimensions must agree")
+    }
     return sum((0..<A.rows).map { A[$0, $0] })
 }
 
@@ -61,8 +63,10 @@ public postfix func ′ (_ a: Matrix) -> Matrix {
 ///     - A: left matrix
 ///     - B: right matrix
 /// - Returns: matrix product of A and B
-public func mtimes(_ A: Matrix, _ B: Matrix) -> Matrix {
-    precondition(A.cols == B.rows, "Matrix dimensions must agree")
+public func mtimes(_ A: Matrix, _ B: Matrix) throws -> Matrix {
+    guard A.cols == B.cols else {
+      throw LASwiftError.RuntimeError("Matrix dimensions must agree")
+    }
     let C: Matrix = zeros(A.rows, B.cols)
     vDSP_mmulD(A.flat, 1, B.flat, 1, &(C.flat), 1, vDSP_Length(A.rows), vDSP_Length(B.cols), vDSP_Length(A.cols))
     return C
@@ -76,8 +80,8 @@ public func mtimes(_ A: Matrix, _ B: Matrix) -> Matrix {
 ///     - A: left matrix
 ///     - B: right matrix
 /// - Returns: matrix product of A and B
-public func * (_ A: Matrix, _ B: Matrix) -> Matrix {
-    return mtimes(A, B)
+public func * (_ A: Matrix, _ B: Matrix) throws -> Matrix {
+    return try mtimes(A, B)
 }
 
 /// Raise matrix to specified power (integer value).
@@ -94,23 +98,25 @@ public func * (_ A: Matrix, _ B: Matrix) -> Matrix {
 ///     - A: matrix
 ///     - p: power to raise matrix to (integer)
 /// - Returns: matrix A raised to power p
-public func mpower(_ A: Matrix, _ p: Int) -> Matrix {
-    precondition(A.cols == A.rows, "Matrix dimensions must agree")
+public func mpower(_ A: Matrix, _ p: Int) throws -> Matrix {
+    guard (A.rows == A.cols) else {
+      throw LASwiftError.RuntimeError("Matrix dimensions must agree")
+    }
     switch p {
     case 1:
         return Matrix(A)
     case -1:
-        return inv(A)
+        return try inv(A)
     case _ where p > 1:
         var C = Matrix(A)
         var p = p
         while (p > 1) {
-            C = mtimes(A, C)
+            C = try mtimes(A, C)
             p -= 1
         }
         return C
     case _ where p < -1:
-        return inv(mpower(A, -p))
+        return try inv(mpower(A, -p))
     default:
         return eye(A.rows, A.cols)
     }
@@ -130,8 +136,8 @@ public func mpower(_ A: Matrix, _ p: Int) -> Matrix {
 ///     - A: matrix
 ///     - p: power to raise matrix to (integer)
 /// - Returns: matrix A raised to power p
-public func ^ (_ a: Matrix, _ p: Int) -> Matrix {
-    return mpower(a, p)
+public func ^ (_ a: Matrix, _ p: Int) throws -> Matrix {
+    return try mpower(a, p)
 }
 
 /// Compute the inverse of a given square matrix.
@@ -141,8 +147,10 @@ public func ^ (_ a: Matrix, _ p: Int) -> Matrix {
 /// - Parameters:
 ///     - A: square matrix to invert
 /// - Returns: inverse of A matrix
-public func inv(_ A: Matrix) -> Matrix {
-    precondition(A.rows == A.cols, "Matrix dimensions must agree")
+public func inv(_ A: Matrix) throws -> Matrix {
+    guard A.rows == A.cols else {
+      throw LASwiftError.RuntimeError("Matrix dimensions must agree")
+    }
     let B = Matrix(A)
     
     var M = __CLPK_integer(A.rows)
@@ -156,8 +164,10 @@ public func inv(_ A: Matrix) -> Matrix {
     var error: __CLPK_integer = 0
     
     dgetrf_(&M, &N, &(B.flat), &LDA, &pivot, &error)
-    
-    precondition(error == 0, "Matrix is non invertible")
+  
+    if (error != 0) {
+      throw LASwiftError.RuntimeError("Matrix is non invertible")
+    }
     
     /* Query and allocate the optimal workspace */
     
@@ -170,7 +180,9 @@ public func inv(_ A: Matrix) -> Matrix {
     
     dgetri_(&N, &(B.flat), &LDA, &pivot, &work, &lWork, &error)
     
-    precondition(error == 0, "Matrix is non invertible")
+    if (error != 0) {
+      throw LASwiftError.RuntimeError("Matrix is non invertible")
+    }
     
     return B
 }
@@ -182,8 +194,10 @@ public func inv(_ A: Matrix) -> Matrix {
 /// - Parameters:
 ///     - A: square matrix to calculate eigen values and vectors of
 /// - Returns: eigenvectors matrix (by rows) and diagonal matrix with eigenvalues on the main diagonal
-public func eig(_ A: Matrix) -> (V: Matrix, D: Matrix) {
-    precondition(A.rows == A.cols, "Matrix dimensions must agree")
+public func eig(_ A: Matrix) throws -> (V: Matrix, D: Matrix) {
+    guard (A.rows == A.cols) else {
+      throw LASwiftError.RuntimeError("Matrix dimensions must agree")
+    }
     
     let V = Matrix(A)
     
@@ -221,8 +235,10 @@ public func eig(_ A: Matrix) -> (V: Matrix, D: Matrix) {
     /* Compute eigen vectors */
     
     dgeev_(&jobvl, &jobvr, &N, &V.flat, &LDA, &wr, &wi, &vl, &ldvl, &vr, &ldvr, &work, &lWork, &error)
-    
-    precondition(error == 0, "Failed to compute eigen vectors")
+  
+    if (error != 0) {
+      throw LASwiftError.RuntimeError("Failed to compute eigen vectors")
+    }
     
     return (toRows(Matrix(A.rows, A.cols, vl), .Column), diag(wr))
 }
@@ -232,7 +248,7 @@ public func eig(_ A: Matrix) -> (V: Matrix, D: Matrix) {
 /// - Parameters:
 ///    - A: matrix to find singular values of
 /// - Returns: matrices U, S, and V such that `A = U * S * transpose(V)`
-public func svd(_ A: Matrix) -> (U: Matrix, S: Matrix, V: Matrix) {
+public func svd(_ A: Matrix) throws -> (U: Matrix, S: Matrix, V: Matrix) {
     /* LAPACK is using column-major order */
     let _A = toCols(A, .Row)
     
@@ -263,8 +279,10 @@ public func svd(_ A: Matrix) -> (U: Matrix, S: Matrix, V: Matrix) {
     
     /* Compute SVD */
     dgesdd_(&jobz, &M, &N, &_A.flat, &LDA, &s, &U.flat, &LDU, &VT.flat, &LDVT, &work, &lWork, &iWork, &error)
-    
-    precondition(error == 0, "Failed to compute SVD")
+  
+    if (error != 0) {
+      throw LASwiftError.RuntimeError("Failed to compute SVD")
+    }
     
     return (toRows(U, .Column), diag(Int(M), Int(N), s), VT)
 }
@@ -278,8 +296,10 @@ public func svd(_ A: Matrix) -> (U: Matrix, S: Matrix, V: Matrix) {
 ///     - t: Triangle value (.Upper, .Lower)
 /// - Returns: upper triangular matrix U so that `A = U' * U` or 
 ///            lower triangular matrix L so that `A = L * L'`
-public func chol(_ A: Matrix, _ t: Triangle = .Upper) -> Matrix {
-    precondition(A.rows == A.cols, "Matrix dimensions must agree")
+public func chol(_ A: Matrix, _ t: Triangle = .Upper) throws -> Matrix {
+    guard (A.rows == A.cols) else {
+      throw LASwiftError.RuntimeError("Matrix dimensions must agree")
+    }
     
     var uplo: Int8
     switch t {
@@ -301,8 +321,10 @@ public func chol(_ A: Matrix, _ t: Triangle = .Upper) -> Matrix {
     /* Compute Cholesky decomposition */
     
     dpotrf_(&uplo, &N, &U.flat, &LDA, &error)
-    
-    precondition(error == 0, "Failed to compute Cholesky decomposition")
+  
+    if (error != 0) {
+      throw LASwiftError.RuntimeError("Failed to compute Cholesky decomposition")
+    }
     
     U = toRows(U, .Column)
     

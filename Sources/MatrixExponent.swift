@@ -20,8 +20,8 @@
 ///     - A: matrix
 ///     - p: power to raise matrix to
 /// - Returns: elementwise matrix power of a raised to p
-public func power(_ A: Matrix, _ b: Double) -> Matrix {
-    return matrixScalarOperation(power, A, b)
+public func power(_ A: Matrix, _ b: Double) throws -> Matrix {
+    return try matrixScalarOperation(power, A, b)
 }
 
 /// Exponentiation function, returning matrix raised to power.
@@ -36,8 +36,8 @@ public func power(_ A: Matrix, _ b: Double) -> Matrix {
 ///     - A: matrix
 ///     - p: power to raise matrix to
 /// - Returns: elementwise matrix power of a raised to p
-public func .^ (_ A: Matrix, _ p: Double) -> Matrix {
-    return power(A, p)
+public func .^ (_ A: Matrix, _ p: Double) throws -> Matrix {
+    return try power(A, p)
 }
 
 /// Exponentiation function, returning matrix raised to power of 2.

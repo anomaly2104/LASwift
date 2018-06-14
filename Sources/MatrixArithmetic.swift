@@ -18,8 +18,8 @@ import Darwin
 ///     - A: left matrix
 ///     - B: right matrix
 /// - Returns: elementwise matrix sum of A and B
-public func plus(_ A: Matrix, _ B: Matrix) -> Matrix {
-    return matrixMatrixOperation(plus, A, B)
+public func plus(_ A: Matrix, _ B: Matrix) throws -> Matrix {
+    return try matrixMatrixOperation(plus, A, B)
 }
 
 /// Perform matrix addition.
@@ -30,8 +30,8 @@ public func plus(_ A: Matrix, _ B: Matrix) -> Matrix {
 ///     - A: left matrix
 ///     - B: right matrix
 /// - Returns: elementwise matrix sum of A and B
-public func + (_ A: Matrix, _ B: Matrix) -> Matrix {
-    return plus(A, B)
+public func + (_ A: Matrix, _ B: Matrix) throws -> Matrix {
+    return try plus(A, B)
 }
 
 /// Perform matrix substraction.
@@ -42,8 +42,8 @@ public func + (_ A: Matrix, _ B: Matrix) -> Matrix {
 ///     - A: left matrix
 ///     - B: right matrix
 /// - Returns: elementwise matrix difference of A and B
-public func minus(_ A: Matrix, _ B: Matrix) -> Matrix {
-    return matrixMatrixOperation(minus, A, B)
+public func minus(_ A: Matrix, _ B: Matrix) throws -> Matrix {
+    return try matrixMatrixOperation(minus, A, B)
 }
 
 /// Perform matrix substraction.
@@ -54,8 +54,8 @@ public func minus(_ A: Matrix, _ B: Matrix) -> Matrix {
 ///     - A: left matrix
 ///     - B: right matrix
 /// - Returns: elementwise matrix difference of A and B
-public func - (_ A: Matrix, _ B: Matrix) -> Matrix {
-    return minus(A, B)
+public func - (_ A: Matrix, _ B: Matrix) throws -> Matrix {
+    return try minus(A, B)
 }
 
 /// Perform matrix multiplication.
@@ -66,8 +66,8 @@ public func - (_ A: Matrix, _ B: Matrix) -> Matrix {
 ///     - A: left matrix
 ///     - B: right matrix
 /// - Returns: elementwise matrix product of A and B
-public func times(_ A: Matrix, _ B: Matrix) -> Matrix {
-    return matrixMatrixOperation(times, A, B)
+public func times(_ A: Matrix, _ B: Matrix) throws -> Matrix {
+    return try matrixMatrixOperation(times, A, B)
 }
 
 /// Perform matrix multiplication.
@@ -78,8 +78,8 @@ public func times(_ A: Matrix, _ B: Matrix) -> Matrix {
 ///     - A: left matrix
 ///     - B: right matrix
 /// - Returns: elementwise matrix product of A and B
-public func .* (_ A: Matrix, _ B: Matrix) -> Matrix {
-    return times(A, B)
+public func .* (_ A: Matrix, _ B: Matrix) throws -> Matrix {
+    return try times(A, B)
 }
 
 /// Perform matrix right division.
@@ -90,8 +90,8 @@ public func .* (_ A: Matrix, _ B: Matrix) -> Matrix {
 ///     - A: left matrix
 ///     - B: right matrix
 /// - Returns: result of elementwise division of A by B
-public func rdivide(_ A: Matrix, _ B: Matrix) -> Matrix {
-    return matrixMatrixOperation(rdivide, A, B)
+public func rdivide(_ A: Matrix, _ B: Matrix) throws -> Matrix {
+    return try matrixMatrixOperation(rdivide, A, B)
 }
 
 /// Perform matrix right division.
@@ -102,8 +102,8 @@ public func rdivide(_ A: Matrix, _ B: Matrix) -> Matrix {
 ///     - A: left matrix
 ///     - B: right matrix
 /// - Returns: result of elementwise division of A by B
-public func ./ (_ A: Matrix, _ B: Matrix) -> Matrix {
-    return rdivide(A, B)
+public func ./ (_ A: Matrix, _ B: Matrix) throws -> Matrix {
+    return try rdivide(A, B)
 }
 
 /// Perform matrix left division.
@@ -114,8 +114,8 @@ public func ./ (_ A: Matrix, _ B: Matrix) -> Matrix {
 ///     - A: left matrix
 ///     - B: right matrix
 /// - Returns: result of elementwise division of B by A
-public func ldivide(_ A: Matrix, _ B: Matrix) -> Matrix {
-    return matrixMatrixOperation(ldivide, A, B)
+public func ldivide(_ A: Matrix, _ B: Matrix) throws -> Matrix {
+    return try matrixMatrixOperation(ldivide, A, B)
 }
 
 /// Perform matrix left division.
@@ -126,8 +126,8 @@ public func ldivide(_ A: Matrix, _ B: Matrix) -> Matrix {
 ///     - A: left matrix
 ///     - B: right matrix
 /// - Returns: result of elementwise division of B by A
-public func ./. (_ A: Matrix, _ B: Matrix) -> Matrix {
-    return ldivide(A, B)
+public func ./. (_ A: Matrix, _ B: Matrix) throws -> Matrix {
+    return try ldivide(A, B)
 }
 
 // MARK: - Matrix-Scalar arithmetics
@@ -143,8 +143,8 @@ public func ./. (_ A: Matrix, _ B: Matrix) -> Matrix {
 ///     - A: matrix
 ///     - b: scalar
 /// - Returns: elementwise sum of matrix A and scalar b
-public func plus(_ A: Matrix, _ b: Double) -> Matrix {
-    return matrixScalarOperation(plus, A, b)
+public func plus(_ A: Matrix, _ b: Double) throws -> Matrix {
+    return try matrixScalarOperation(plus, A, b)
 }
 
 /// Perform matrix and scalar addition.
@@ -158,8 +158,8 @@ public func plus(_ A: Matrix, _ b: Double) -> Matrix {
 ///     - A: matrix
 ///     - b: scalar
 /// - Returns: elementwise sum of matrix A and scalar b
-public func + (_ A: Matrix, _ b: Double) -> Matrix {
-    return plus(A, b)
+public func + (_ A: Matrix, _ b: Double) throws -> Matrix {
+    return try plus(A, b)
 }
 
 /// Perform scalar and matrix addition.
@@ -173,8 +173,8 @@ public func + (_ A: Matrix, _ b: Double) -> Matrix {
 ///     - a: scalar
 ///     - B: matrix
 /// - Returns: elementwise sum of scalar a and matrix B
-public func plus(_ a: Double, _ B: Matrix) -> Matrix {
-    return invMatrixScalarOperation(plus, a, B)
+public func plus(_ a: Double, _ B: Matrix) throws -> Matrix {
+    return try invMatrixScalarOperation(plus, a, B)
 }
 
 /// Perform scalar and matrix addition.
@@ -188,8 +188,8 @@ public func plus(_ a: Double, _ B: Matrix) -> Matrix {
 ///     - a: scalar
 ///     - B: matrix
 /// - Returns: elementwise sum of scalar a and matrix B
-public func + (_ a: Double, _ B: Matrix) -> Matrix {
-    return plus(a, B)
+public func + (_ a: Double, _ B: Matrix) throws -> Matrix {
+    return try plus(a, B)
 }
 
 /// Perform matrix and scalar substraction.
@@ -203,8 +203,8 @@ public func + (_ a: Double, _ B: Matrix) -> Matrix {
 ///     - A: matrix
 ///     - b: scalar
 /// - Returns: elementwise difference of matrix A and scalar b
-public func minus(_ A: Matrix, _ b: Double) -> Matrix {
-    return matrixScalarOperation(minus, A, b)
+public func minus(_ A: Matrix, _ b: Double) throws -> Matrix {
+    return try matrixScalarOperation(minus, A, b)
 }
 
 /// Perform matrix and scalar substraction.
@@ -218,8 +218,8 @@ public func minus(_ A: Matrix, _ b: Double) -> Matrix {
 ///     - A: matrix
 ///     - b: scalar
 /// - Returns: elementwise difference of matrix A and scalar b
-public func - (_ A: Matrix, _ b: Double) -> Matrix {
-    return minus(A, b)
+public func - (_ A: Matrix, _ b: Double) throws -> Matrix {
+    return try minus(A, b)
 }
 
 /// Perform scalar and matrix substraction.
@@ -233,8 +233,8 @@ public func - (_ A: Matrix, _ b: Double) -> Matrix {
 ///     - a: scalar
 ///     - B: matrix
 /// - Returns: elementwise difference of scalar a and matrix B
-public func minus(_ a: Double, _ B: Matrix) -> Matrix {
-    return invMatrixScalarOperation(minus, a, B)
+public func minus(_ a: Double, _ B: Matrix) throws -> Matrix {
+    return try invMatrixScalarOperation(minus, a, B)
 }
 
 /// Perform scalar and matrix substraction.
@@ -248,8 +248,8 @@ public func minus(_ a: Double, _ B: Matrix) -> Matrix {
 ///     - a: scalar
 ///     - B: matrix
 /// - Returns: elementwise difference of scalar a and matrix B
-public func - (_ a: Double, _ B: Matrix) -> Matrix {
-    return minus(a, B)
+public func - (_ a: Double, _ B: Matrix) throws -> Matrix {
+    return try minus(a, B)
 }
 
 /// Perform matrix and scalar multiplication.
@@ -263,8 +263,8 @@ public func - (_ a: Double, _ B: Matrix) -> Matrix {
 ///     - A: matrix
 ///     - b: scalar
 /// - Returns: elementwise product of matrix A and scalar b
-public func times(_ A: Matrix, _ b: Double) -> Matrix {
-    return matrixScalarOperation(times, A, b)
+public func times(_ A: Matrix, _ b: Double) throws -> Matrix {
+    return try matrixScalarOperation(times, A, b)
 }
 
 /// Perform matrix and scalar multiplication.
@@ -278,8 +278,8 @@ public func times(_ A: Matrix, _ b: Double) -> Matrix {
 ///     - A: matrix
 ///     - b: scalar
 /// - Returns: elementwise product of matrix A and scalar b
-public func .* (_ A: Matrix, _ b: Double) -> Matrix {
-    return times(A, b)
+public func .* (_ A: Matrix, _ b: Double) throws -> Matrix {
+    return try times(A, b)
 }
 
 /// Perform scalar and matrix multiplication.
@@ -293,8 +293,8 @@ public func .* (_ A: Matrix, _ b: Double) -> Matrix {
 ///     - a: scalar
 ///     - B: matrix
 /// - Returns: elementwise product of scalar a and matrix B
-public func times(_ a: Double, _ B: Matrix) -> Matrix {
-    return invMatrixScalarOperation(times, a, B)
+public func times(_ a: Double, _ B: Matrix) throws -> Matrix {
+    return try invMatrixScalarOperation(times, a, B)
 }
 
 /// Perform scalar and matrix multiplication.
@@ -308,8 +308,8 @@ public func times(_ a: Double, _ B: Matrix) -> Matrix {
 ///     - a: scalar
 ///     - B: matrix
 /// - Returns: elementwise product of scalar a and matrix B
-public func .* (_ a: Double, _ B: Matrix) -> Matrix {
-    return times(a, B)
+public func .* (_ a: Double, _ B: Matrix) throws -> Matrix {
+    return try times(a, B)
 }
 
 /// Perform matrix and scalar right division.
@@ -323,8 +323,8 @@ public func .* (_ a: Double, _ B: Matrix) -> Matrix {
 ///     - A: matrix
 ///     - b: scalar
 /// - Returns: result of elementwise division of matrix A by scalar b
-public func rdivide(_ A: Matrix, _ b: Double) -> Matrix {
-    return matrixScalarOperation(rdivide, A, b)
+public func rdivide(_ A: Matrix, _ b: Double) throws -> Matrix {
+    return try matrixScalarOperation(rdivide, A, b)
 }
 
 /// Perform matrix and scalar right division.
@@ -338,8 +338,8 @@ public func rdivide(_ A: Matrix, _ b: Double) -> Matrix {
 ///     - A: matrix
 ///     - b: scalar
 /// - Returns: result of elementwise division of matrix A by scalar b
-public func ./ (_ A: Matrix, _ b: Double) -> Matrix {
-    return rdivide(A, b)
+public func ./ (_ A: Matrix, _ b: Double) throws -> Matrix {
+    return try rdivide(A, b)
 }
 
 /// Perform scalar and matrix right division.
@@ -353,8 +353,8 @@ public func ./ (_ A: Matrix, _ b: Double) -> Matrix {
 ///     - a: scalar
 ///     - B: matrix
 /// - Returns: result of elementwise division of scalar a by matrix B
-public func rdivide(_ a: Double, _ B: Matrix) -> Matrix {
-    return invMatrixScalarOperation(rdivide, a, B)
+public func rdivide(_ a: Double, _ B: Matrix) throws -> Matrix {
+    return try invMatrixScalarOperation(rdivide, a, B)
 }
 
 /// Perform scalar and matrix right division.
@@ -368,8 +368,8 @@ public func rdivide(_ a: Double, _ B: Matrix) -> Matrix {
 ///     - a: scalar
 ///     - B: matrix
 /// - Returns: result of elementwise division of scalar a by matrix B
-public func ./ (_ a: Double, _ B: Matrix) -> Matrix {
-    return rdivide(a, B)
+public func ./ (_ a: Double, _ B: Matrix) throws -> Matrix {
+    return try rdivide(a, B)
 }
 
 /// Perform matrix and scalar left division.
@@ -383,8 +383,8 @@ public func ./ (_ a: Double, _ B: Matrix) -> Matrix {
 ///     - A: matrix
 ///     - b: scalar
 /// - Returns: result of elementwise division of scalar b by matrix A
-public func ldivide(_ A: Matrix, _ b: Double) -> Matrix {
-    return matrixScalarOperation(ldivide, A, b)
+public func ldivide(_ A: Matrix, _ b: Double) throws -> Matrix {
+    return try matrixScalarOperation(ldivide, A, b)
 }
 
 /// Perform matrix and scalar left division.
@@ -398,8 +398,8 @@ public func ldivide(_ A: Matrix, _ b: Double) -> Matrix {
 ///     - A: matrix
 ///     - b: scalar
 /// - Returns: result of elementwise division of scalar b by matrix aA
-public func ./. (_ A: Matrix, _ b: Double) -> Matrix {
-    return ldivide(A, b)
+public func ./. (_ A: Matrix, _ b: Double) throws -> Matrix {
+    return try ldivide(A, b)
 }
 
 /// Perform scalar and matrix left division.
@@ -413,8 +413,8 @@ public func ./. (_ A: Matrix, _ b: Double) -> Matrix {
 ///     - a: scalar
 ///     - B: matrix
 /// - Returns: result of elementwise division of matrix B by scalar a
-public func ldivide(_ a: Double, _ B: Matrix) -> Matrix {
-    return invMatrixScalarOperation(ldivide, a, B)
+public func ldivide(_ a: Double, _ B: Matrix) throws -> Matrix {
+    return try invMatrixScalarOperation(ldivide, a, B)
 }
 
 /// Perform scalar and matrix left division.
@@ -428,8 +428,8 @@ public func ldivide(_ a: Double, _ B: Matrix) -> Matrix {
 ///     - a: scalar
 ///     - B: matrix
 /// - Returns: result of elementwise division of matrix B by scalar a
-public func ./. (_ a: Double, _ B: Matrix) -> Matrix {
-    return ldivide(a, B)
+public func ./. (_ a: Double, _ B: Matrix) throws -> Matrix {
+    return try ldivide(a, B)
 }
 
 // MARK: - Matrix-Vector arithmetics
@@ -445,8 +445,8 @@ public func ./. (_ a: Double, _ B: Matrix) -> Matrix {
 ///     - A: matrix
 ///     - b: vector
 /// - Returns: elementwise sum of matrix A and vector b
-public func plus(_ A: Matrix, _ b: Vector) -> Matrix {
-    return matrixVectorOperation(plus, A, b)
+public func plus(_ A: Matrix, _ b: Vector) throws -> Matrix {
+    return try matrixVectorOperation(plus, A, b)
 }
 
 /// Perform matrix and vector addition.
@@ -460,8 +460,8 @@ public func plus(_ A: Matrix, _ b: Vector) -> Matrix {
 ///     - A: matrix
 ///     - b: vector
 /// - Returns: elementwise sum of matrix A and vector b
-public func + (_ A: Matrix, _ b: Vector) -> Matrix {
-    return plus(A, b)
+public func + (_ A: Matrix, _ b: Vector) throws -> Matrix {
+    return try plus(A, b)
 }
 
 /// Perform vector and matrix addition.
@@ -475,8 +475,8 @@ public func + (_ A: Matrix, _ b: Vector) -> Matrix {
 ///     - a: vector
 ///     - B: matrix
 /// - Returns: elementwise sum of vector a and matrix B
-public func plus(_ a: Vector, _ B: Matrix) -> Matrix {
-    return invMatrixVectorOperation(plus, a, B)
+public func plus(_ a: Vector, _ B: Matrix) throws -> Matrix {
+    return try invMatrixVectorOperation(plus, a, B)
 }
 
 /// Perform vector and matrix addition.
@@ -490,8 +490,8 @@ public func plus(_ a: Vector, _ B: Matrix) -> Matrix {
 ///     - a: vector
 ///     - B: matrix
 /// - Returns: elementwise sum of vector a and matrix B
-public func + (_ a: Vector, _ B: Matrix) -> Matrix {
-    return plus(a, B)
+public func + (_ a: Vector, _ B: Matrix) throws -> Matrix {
+    return try plus(a, B)
 }
 
 /// Perform matrix and vector substraction.
@@ -505,8 +505,8 @@ public func + (_ a: Vector, _ B: Matrix) -> Matrix {
 ///     - A: matrix
 ///     - b: vector
 /// - Returns: elementwise difference of matrix A and vector b
-public func minus(_ A: Matrix, _ b: Vector) -> Matrix {
-    return matrixVectorOperation(minus, A, b)
+public func minus(_ A: Matrix, _ b: Vector) throws -> Matrix {
+    return try matrixVectorOperation(minus, A, b)
 }
 
 /// Perform matrix and vector substraction.
@@ -520,8 +520,8 @@ public func minus(_ A: Matrix, _ b: Vector) -> Matrix {
 ///     - A: matrix
 ///     - b: vector
 /// - Returns: elementwise difference of matrix A and vector b
-public func - (_ A: Matrix, _ b: Vector) -> Matrix {
-    return minus(A, b)
+public func - (_ A: Matrix, _ b: Vector) throws -> Matrix {
+    return try minus(A, b)
 }
 
 /// Perform vector and matrix substraction.
@@ -535,8 +535,8 @@ public func - (_ A: Matrix, _ b: Vector) -> Matrix {
 ///     - a: vector
 ///     - B: matrix
 /// - Returns: elementwise difference of vector a and matrix B
-public func minus(_ a: Vector, _ B: Matrix) -> Matrix {
-    return invMatrixVectorOperation(minus, a, B)
+public func minus(_ a: Vector, _ B: Matrix) throws -> Matrix {
+    return try invMatrixVectorOperation(minus, a, B)
 }
 
 /// Perform vector and matrix substraction.
@@ -550,8 +550,8 @@ public func minus(_ a: Vector, _ B: Matrix) -> Matrix {
 ///     - a: vector
 ///     - B: matrix
 /// - Returns: elementwise difference of vector a and matrix B
-public func - (_ a: Vector, _ B: Matrix) -> Matrix {
-    return minus(a, B)
+public func - (_ a: Vector, _ B: Matrix) throws -> Matrix {
+    return try minus(a, B)
 }
 
 /// Perform matrix and vector multiplication.
@@ -565,8 +565,8 @@ public func - (_ a: Vector, _ B: Matrix) -> Matrix {
 ///     - A: matrix
 ///     - b: vector
 /// - Returns: elementwise product of matrix A and vector b
-public func times(_ A: Matrix, _ b: Vector) -> Matrix {
-    return matrixVectorOperation(times, A, b)
+public func times(_ A: Matrix, _ b: Vector) throws -> Matrix {
+    return try matrixVectorOperation(times, A, b)
 }
 
 /// Perform matrix and vector multiplication.
@@ -580,8 +580,8 @@ public func times(_ A: Matrix, _ b: Vector) -> Matrix {
 ///     - A: matrix
 ///     - b: vector
 /// - Returns: elementwise product of matrix A and vector b
-public func .* (_ A: Matrix, _ b: Vector) -> Matrix {
-    return times(A, b)
+public func .* (_ A: Matrix, _ b: Vector) throws -> Matrix {
+    return try times(A, b)
 }
 
 /// Perform vector and matrix multiplication.
@@ -595,8 +595,8 @@ public func .* (_ A: Matrix, _ b: Vector) -> Matrix {
 ///     - a: vector
 ///     - B: matrix
 /// - Returns: elementwise product of vector a and matrix B
-public func times(_ a: Vector, _ B: Matrix) -> Matrix {
-    return invMatrixVectorOperation(times, a, B)
+public func times(_ a: Vector, _ B: Matrix) throws -> Matrix {
+    return try invMatrixVectorOperation(times, a, B)
 }
 
 /// Perform vector and matrix multiplication.
@@ -610,8 +610,8 @@ public func times(_ a: Vector, _ B: Matrix) -> Matrix {
 ///     - a: vector
 ///     - B: matrix
 /// - Returns: elementwise product of vector a and matrix B
-public func .* (_ a: Vector, _ B: Matrix) -> Matrix {
-    return times(a, B)
+public func .* (_ a: Vector, _ B: Matrix) throws -> Matrix {
+    return try times(a, B)
 }
 
 /// Perform matrix and vector right division.
@@ -625,8 +625,8 @@ public func .* (_ a: Vector, _ B: Matrix) -> Matrix {
 ///     - A: matrix
 ///     - b: vector
 /// - Returns: result of elementwise division of matrix A by vector b
-public func rdivide(_ A: Matrix, _ b: Vector) -> Matrix {
-    return matrixVectorOperation(rdivide, A, b)
+public func rdivide(_ A: Matrix, _ b: Vector) throws -> Matrix {
+    return try matrixVectorOperation(rdivide, A, b)
 }
 
 /// Perform matrix and vector right division.
@@ -640,8 +640,8 @@ public func rdivide(_ A: Matrix, _ b: Vector) -> Matrix {
 ///     - A: matrix
 ///     - b: vector
 /// - Returns: result of elementwise division of matrix A by vector b
-public func ./ (_ A: Matrix, _ b: Vector) -> Matrix {
-    return rdivide(A, b)
+public func ./ (_ A: Matrix, _ b: Vector) throws -> Matrix {
+    return try rdivide(A, b)
 }
 
 /// Perform vector and matrix right division.
@@ -655,8 +655,8 @@ public func ./ (_ A: Matrix, _ b: Vector) -> Matrix {
 ///     - a: vector
 ///     - B: matrix
 /// - Returns: result of elementwise division of vector a by matrix B
-public func rdivide(_ a: Vector, _ B: Matrix) -> Matrix {
-    return invMatrixVectorOperation(rdivide, a, B)
+public func rdivide(_ a: Vector, _ B: Matrix) throws -> Matrix {
+    return try invMatrixVectorOperation(rdivide, a, B)
 }
 
 /// Perform vector and matrix right division.
@@ -670,8 +670,8 @@ public func rdivide(_ a: Vector, _ B: Matrix) -> Matrix {
 ///     - a: vector
 ///     - B: matrix
 /// - Returns: result of elementwise division of vector a by matrix B
-public func ./ (_ a: Vector, _ B: Matrix) -> Matrix {
-    return rdivide(a, B)
+public func ./ (_ a: Vector, _ B: Matrix) throws -> Matrix {
+    return try rdivide(a, B)
 }
 
 /// Perform matrix and vector left division.
@@ -685,8 +685,8 @@ public func ./ (_ a: Vector, _ B: Matrix) -> Matrix {
 ///     - A: matrix
 ///     - b: vector
 /// - Returns: result of elementwise division of vector b by matrix A
-public func ldivide(_ A: Matrix, _ b: Vector) -> Matrix {
-    return matrixVectorOperation(ldivide, A, b)
+public func ldivide(_ A: Matrix, _ b: Vector) throws -> Matrix {
+    return try matrixVectorOperation(ldivide, A, b)
 }
 
 /// Perform matrix and vector left division.
@@ -700,8 +700,8 @@ public func ldivide(_ A: Matrix, _ b: Vector) -> Matrix {
 ///     - A: matrix
 ///     - b: vector
 /// - Returns: result of elementwise division of vector b by matrix A
-public func ./. (_ A: Matrix, _ b: Vector) -> Matrix {
-    return ldivide(A, b)
+public func ./. (_ A: Matrix, _ b: Vector) throws -> Matrix {
+    return try ldivide(A, b)
 }
 
 /// Perform vector and matrix left division.
@@ -715,8 +715,8 @@ public func ./. (_ A: Matrix, _ b: Vector) -> Matrix {
 ///     - a: vector
 ///     - B: matrix
 /// - Returns: result of elementwise division of matrix B by vector a
-public func ldivide(_ a: Vector, _ B: Matrix) -> Matrix {
-    return invMatrixVectorOperation(ldivide, a, B)
+public func ldivide(_ a: Vector, _ B: Matrix) throws -> Matrix {
+    return try invMatrixVectorOperation(ldivide, a, B)
 }
 
 /// Perform vector and matrix left division.
@@ -730,8 +730,8 @@ public func ldivide(_ a: Vector, _ B: Matrix) -> Matrix {
 ///     - a: vector
 ///     - B: matrix
 /// - Returns: result of elementwise division of matrix B by vector a
-public func ./. (_ a: Vector, _ B: Matrix) -> Matrix {
-    return ldivide(a, B)
+public func ./. (_ a: Vector, _ B: Matrix) throws -> Matrix {
+    return try ldivide(a, B)
 }
 
 // MARK: - Sign operations on matrix
