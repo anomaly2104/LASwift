@@ -288,6 +288,10 @@ extension Matrix {
     internal func indexIsValidForRow(_ row: Int, _ col: Int) -> Bool {
         return row >= 0 && row < rows && col >= 0 && col < cols
     }
+  
+    public func isSquare() -> Bool {
+      return cols == rows;
+    }
 }
 
 internal func toRows(_ A: Matrix, _ d: Dim) -> Matrix {
