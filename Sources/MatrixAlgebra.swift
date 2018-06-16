@@ -357,3 +357,26 @@ public func tri(_ A: Matrix, _ t: Triangle) -> Matrix {
     }
     return _A
 }
+
+public func determinant(matrix: Matrix) throws -> Double {
+  guard matrix.isSquare() else {
+    throw LASwiftError.RuntimeError("Cannot find the determinant of a non-square matrix");
+  }
+  
+  // Base case
+  if matrix.cols == 1 { return matrix[0,0] }
+  else {
+    // Recursive case
+    var sum: Double = 0
+    var multiplier: Double = 1
+    
+    let firstRow = matrix[row: 0]
+    for (_, num) in firstRow.enumerated() {
+      let subMatrix = slice(matrix, (er: Extractor.Drop(1), ec: Extractor.Drop(1)))
+      sum += try num * multiplier * determinant(matrix: subMatrix)
+      multiplier *= (0-1) // swift is buggy
+    }
+    
+    return sum
+  }
+}
