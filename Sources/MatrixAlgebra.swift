@@ -64,7 +64,7 @@ public postfix func ′ (_ a: Matrix) -> Matrix {
 ///     - B: right matrix
 /// - Returns: matrix product of A and B
 public func mtimes(_ A: Matrix, _ B: Matrix) throws -> Matrix {
-    guard A.cols == B.cols else {
+    guard A.cols == B.rows else {
       throw LASwiftError.RuntimeError("Matrix dimensions must agree")
     }
     let C: Matrix = zeros(A.rows, B.cols)
