@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'LASwift'
-  s.version          = '0.2.0'
+  s.version          = '0.2.2'
   s.summary          = 'Linear algebra library for Swift language'
 
   s.description      = <<-DESC
@@ -23,8 +23,9 @@ Matlab matrix manipulation and Haskell linear algebra library 'hmatrix'
   s.source           = { :git => 'https://github.com/alexandertar/LASwift.git', :tag => s.version.to_s }
 
   s.ios.deployment_target     = '8.0'
-  s.osx.deployment_target     = '10.9'
+  s.osx.deployment_target     = '10.10'
   s.tvos.deployment_target    = '9.0'
+  s.watchos.deployment_target = '2.0'
 
   s.frameworks = 'Accelerate'
 
